@@ -37,12 +37,18 @@ get_system_metrics() {
     local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
 
     # Memory usage
-    local memory_info=$(vm_stat | grep -E "(Pages free|Pages active|Pages inactive|Pages wired down|Pages occupied by compressor)")
+    # Optimize: Parse vm_stat once instead of multiple grep/awk calls
+    local memory_vars=$(vm_stat | awk '
+        /Pages free/ { printf "local free_memory=%s;", $3 }
+        /Pages active/ { printf "local active_memory=%s;", $3 }
+        /Pages inactive/ { printf "local inactive_memory=%s;", $3 }
+        /Pages wired down/ { printf "local wired_memory=%s;", $4 }
+    ' | tr -d '.')
+
+    local free_memory active_memory inactive_memory wired_memory
+    eval "$memory_vars"
+
     local total_memory=$(sysctl -n hw.memsize | awk '{print $0/1024/1024/1024}')
-    local free_memory=$(echo "$memory_info" | grep "Pages free" | awk '{print $3}' | sed 's/\.//')
-    local active_memory=$(echo "$memory_info" | grep "Pages active" | awk '{print $3}' | sed 's/\.//')
-    local inactive_memory=$(echo "$memory_info" | grep "Pages inactive" | awk '{print $3}' | sed 's/\.//')
-    local wired_memory=$(echo "$memory_info" | grep "Pages wired down" | awk '{print $4}' | sed 's/\.//')
 
     # Convert to MB
     local page_size=4096
