@@ -4,8 +4,13 @@
 
 set -e
 
-echo "[top-hogs] Top 10 CPU-consuming processes:"
-ps aux | sort -nrk 3 | head -n 11
+# ANSI Color Codes
+BLUE='\033[0;34m'
+BOLD='\033[1m'
+RESET='\033[0m'
 
-echo "\n[top-hogs] Top 10 Memory-consuming processes:"
-ps aux | sort -nrk 4 | head -n 11 
+echo -e "${BLUE}${BOLD}[top-hogs] Top 10 CPU-consuming processes:${RESET}"
+ps aux | awk 'NR==1 {print; next} {print | "sort -nrk 3 | head -n 10"}'
+
+echo -e "\n${BLUE}${BOLD}[top-hogs] Top 10 Memory-consuming processes:${RESET}"
+ps aux | awk 'NR==1 {print; next} {print | "sort -nrk 4 | head -n 10"}'
