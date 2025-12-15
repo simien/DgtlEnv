@@ -54,9 +54,14 @@ if command -v sysctl &> /dev/null; then
     SWAP_INFO=$(sysctl vm.swapusage 2>/dev/null)
     log "$SWAP_INFO"
 
-    # Extract swap usage values
-    TOTAL_SWAP=$(echo "$SWAP_INFO" | grep 'total' | awk '{print $4}' | sed 's/M//' | sed 's/\..*//')
-    USED_SWAP=$(echo "$SWAP_INFO" | grep 'used' | awk '{print $4}' | sed 's/M//' | sed 's/\..*//')
+    # Extract swap usage values efficiently using awk
+    # vm.swapusage: total = 1024.00M  used = 512.50M ...
+    # awk gets fields $4 (total) and $7 (used)
+    read -r TOTAL_SWAP USED_SWAP <<< $(echo "$SWAP_INFO" | awk '{
+        gsub(/M/,"",$4); gsub(/\..*/,"",$4);
+        gsub(/M/,"",$7); gsub(/\..*/,"",$7);
+        print $4, $7
+    }')
 
     # Check if swap usage is high (>50% of total)
     if [ ! -z "$TOTAL_SWAP" ] && [ ! -z "$USED_SWAP" ] && [ "$TOTAL_SWAP" -gt 0 ]; then
@@ -78,7 +83,9 @@ fi
 log "--- Pageouts (Active Swapping) ---" "$BOLD"
 
 if command -v vm_stat &> /dev/null; then
-    PAGEOUTS=$(vm_stat | grep 'pageouts' | awk '{print $2}' | sed 's/\.//')
+    # Case-insensitive grep matching for 'Pageouts' or 'pageouts'
+    # Use awk to handle parsing cleanly
+    PAGEOUTS=$(vm_stat | grep -i 'pageouts' | awk '{print $2}' | sed 's/\.//')
     if [ ! -z "$PAGEOUTS" ] && [ $PAGEOUTS -gt 0 ]; then
         log "⚠️  WARNING: Active swapping detected ($PAGEOUTS pageouts)" "$YELLOW"
         log "   System is using disk as virtual memory"
@@ -94,7 +101,8 @@ log "--- SSD Health ---" "$BOLD"
 
 # Basic SMART status
 if command -v diskutil &> /dev/null; then
-    SMART_STATUS=$(diskutil info disk0 | grep 'SMART Status' | awk '{print $3}')
+    # diskutil output has "SMART Status: Verified"
+    SMART_STATUS=$(diskutil info disk0 | awk '/SMART Status/ {print $3}')
     if [ ! -z "$SMART_STATUS" ]; then
         log "SMART Status: $SMART_STATUS"
 
@@ -117,24 +125,34 @@ if command -v smartctl &> /dev/null; then
     # Get SSD wear indicators
     SMART_OUTPUT=$(sudo smartctl -a disk0 2>/dev/null)
 
-    # Check for wear leveling count
-    WEAR_COUNT=$(echo "$SMART_OUTPUT" | grep 'Wear_Leveling_Count' | awk '{print $10}')
-    if [ ! -z "$WEAR_COUNT" ]; then
+    # Parse SMART attributes efficiently
+    # We want Wear_Leveling_Count (173), Reallocated_Sector_Ct (5), Media_Wearout_Indicator (169)
+    # The output format is: ID# ATTRIBUTE_NAME FLAG VALUE WORST THRESH TYPE UPDATED WHEN_FAILED RAW_VALUE
+
+    # We use awk to parse everything in one pass
+    # Output format: WEAR_COUNT REALLOCATED MEDIA_WEAR
+    # Use -1 or N/A for missing values to ensure column alignment
+    read -r WEAR_COUNT REALLOCATED MEDIA_WEAR <<< $(echo "$SMART_OUTPUT" | awk '
+        /Wear_Leveling_Count/ { wc = $10 }
+        /Reallocated_Sector_Ct/ { rs = $10 }
+        /Media_Wearout_Indicator/ { mw = $10 }
+        END {
+            print (wc != "" ? wc : "NA"), (rs != "" ? rs : "NA"), (mw != "" ? mw : "NA")
+        }
+    ')
+
+    if [ "$WEAR_COUNT" != "NA" ]; then
         log "Wear Leveling Count: $WEAR_COUNT"
         if [ $WEAR_COUNT -lt 10 ]; then
             log "⚠️  WARNING: SSD wear leveling count is low" "$YELLOW"
         fi
     fi
 
-    # Check for reallocated sectors
-    REALLOCATED=$(echo "$SMART_OUTPUT" | grep 'Reallocated_Sector_Ct' | awk '{print $10}')
-    if [ ! -z "$REALLOCATED" ] && [ $REALLOCATED -gt 0 ]; then
+    if [ "$REALLOCATED" != "NA" ] && [ $REALLOCATED -gt 0 ]; then
         log "⚠️  WARNING: Reallocated sectors detected ($REALLOCATED)" "$YELLOW"
     fi
 
-    # Check media wearout indicator
-    MEDIA_WEAR=$(echo "$SMART_OUTPUT" | grep 'Media_Wearout_Indicator' | awk '{print $10}')
-    if [ ! -z "$MEDIA_WEAR" ]; then
+    if [ "$MEDIA_WEAR" != "NA" ]; then
         log "Media Wearout Indicator: $MEDIA_WEAR"
         if [ $MEDIA_WEAR -lt 10 ]; then
             log "⚠️  WARNING: SSD media wearout indicator is low" "$YELLOW"
