@@ -21,6 +21,7 @@ prompts/
     ├── documentation-generation/        # Documentation and content creation prompts
     ├── workflow-management/            # Task management and workflow prompts
     ├── code-analysis/                  # Script execution and code analysis prompts
+    ├── external-skills/                # Third-party skills from skills.sh
     └── meta-prompts/                   # Self-referential and utility prompts
 ```
 
@@ -40,6 +41,9 @@ prompts/
 
 ### Meta-Prompts
 > **Utility functions** - Prompts for conversation summarization, development history export, and other utility functions
+
+### External Skills
+> **Third-party capabilities** - Skills imported from the broader ecosystem (skills.sh) like advanced git and bash operations
 
 ## Usage Guidelines
 

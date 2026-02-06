@@ -12,6 +12,7 @@ Each category contains prompts designed for specific types of tasks and workflow
 - **documentation-generation/**: Content creation, documentation updates, and visual enhancements
 - **workflow-management/**: Task organization, quality control, and version control operations
 - **code-analysis/**: Script execution, testing, and code verification
+- **external-skills/**: Third-party skills form skills.sh
 - **meta-prompts/**: Self-referential utilities and conversation management
 
 ## Category Selection Guidelines
@@ -22,6 +23,7 @@ Choose the appropriate category based on your primary task:
 - **Documentation creation or updates** → `documentation-generation/`
 - **Task management or workflow operations** → `workflow-management/`
 - **Code testing or script execution** → `code-analysis/`
+- **Third-party capabilities (Git, Bash, etc.)** → `external-skills/`
 - **Conversation management or utilities** → `meta-prompts/`
 
 ## Standards

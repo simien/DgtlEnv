@@ -146,6 +146,17 @@ inject_context() {
         final_body=$(inject_rag_sources "$final_body" "$rag_sources")
     fi
 
+    # Inject Global System Context
+    local global_context_file="${PROJ_ROOT}/prompts/system/global-context.md"
+    if [[ -f "$global_context_file" ]]; then
+        local global_content
+        global_content=$(cat "$global_context_file")
+        prompt_body="${global_content}
+
+${prompt_body}"
+        log "debug" "Injected global system context"
+    fi
+
     # Substitute variables
     final_body=$(echo "$final_body" | substitute_variables)
 
