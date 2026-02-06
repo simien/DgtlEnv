@@ -1,0 +1,164 @@
+{
+  "project": {
+    "name": "DgtlEnv",
+    "fullName": "DgtlEnv - Digital Environment Management",
+    "description": "A personal experimental project focused on improving my environment to run modern products. Contains explorations for internal management and personal interests in design, development, context systems, and processes.",
+    "version": "1.0.0",
+    "contact_name": "DgtlEnv Maintainer",
+    "license": "MIT",
+    "author": "DgtlEnv Maintainer",
+    "maintainer": "DgtlEnv Maintainer",
+    "website": "https://example.com/",
+    "documentation": "https://github.com/dgtlenv-maintainer/DgtlEnv#readme",
+    "email": "maintainer@example.com",
+    "githubUser": "dgtlenv-maintainer"
+  },
+  "system": {
+    "targetOS": "macOS 12.7.6 Monterey",
+    "targetHardware": "MacBook Pro (Retina, 15-inch, Mid 2015)",
+    "performanceTargets": {
+      "memory": {
+        "target": "< 80%",
+        "current": "34%",
+        "status": "excellent"
+      },
+      "cpu": {
+        "target": "< 70%",
+        "current": "14%",
+        "status": "optimal"
+      },
+      "disk": {
+        "target": "< 85%",
+        "current": "21%",
+        "status": "healthy"
+      },
+      "swap": {
+        "target": "minimal",
+        "current": "0%",
+        "status": "perfect"
+      }
+    }
+  },
+  "features": {
+    "systemOptimization": {
+      "enabled": true,
+      "description": "Cursor IDE, Docker, and system performance tuning"
+    },
+    "pdfManagement": {
+      "enabled": true,
+      "description": "Automated PDF to markdown conversion with file watching"
+    },
+    "metricsTracking": {
+      "enabled": true,
+      "description": "Visual dashboards showing before/after improvements"
+    },
+    "healthMonitoring": {
+      "enabled": true,
+      "description": "Real-time system performance and health checks"
+    },
+    "automatedMaintenance": {
+      "enabled": true,
+      "description": "Cleanup scripts and optimization tools"
+    },
+    "securitySanitization": {
+      "enabled": true,
+      "description": "Pre-release sanitizer for public releases"
+    }
+  },
+  "ascii": {
+    "logo": {
+      "simple": "DgtlEnv",
+      "styled": "┌─────────────────────────────────────┐\n│  DgtlEnv - Digital Environment     │\n│  Management System                 │\n└─────────────────────────────────────┘",
+      "art": "DgtlEnv",
+      "minimal": "DgtlEnv\nDigital Environment Management"
+    },
+    "icons": {
+      "system": "🖥️",
+      "memory": "💾",
+      "cpu": "🔥",
+      "disk": "💿",
+      "metrics": "📊",
+      "dashboard": "📈",
+      "document": "📄",
+      "tool": "🔧",
+      "security": "🛡️",
+      "lock": "🔒",
+      "performance": "⚡",
+      "target": "🎯",
+      "directory": "📁",
+      "markdown": "📄",
+      "json": "📊",
+      "config": "⚙️",
+      "script": "🔧",
+      "log": "📋",
+      "metric": "📈",
+      "template": "🎨",
+      "start": "▶️",
+      "stop": "⏹️",
+      "restart": "🔄",
+      "edit": "📝",
+      "export": "📤",
+      "import": "📥",
+      "search": "🔍",
+      "complete": "✅",
+      "warning": "⚠️",
+      "error": "❌",
+      "processing": "🔄",
+      "cursor": "💻",
+      "docker": "🐳",
+      "homebrew": "🍺",
+      "stats": "📊",
+      "tools": "🛠️"
+    },
+    "status": {
+      "success": "✅",
+      "warning": "⚠️",
+      "error": "❌",
+      "progress": "🔄",
+      "good": "🟢",
+      "critical": "🔴",
+      "neutral": "⚪"
+    }
+  },
+  "paths": {
+    "root": "./",
+    "docs": "./docs/",
+    "ops": "./ops/",
+    "scripts": "./scripts/",
+    "metrics": "./metrics/",
+    "security": "./security/",
+    "config": "./config/",
+    "tests": "./tests/",
+    "examples": "./examples/",
+    "todos": "./todos/",
+    "logs": "./logs/"
+  },
+  "scripts": {
+    "backup": {
+      "create": "./ops/backup/create-digitalenv-backup.sh",
+      "pdfConverter": "./ops/backup/simple-pdf-converter.sh",
+      "pdfWatcher": "./ops/backup/pdf-watcher.sh"
+    },
+    "monitoring": {
+      "health": "./ops/monitoring/swap-ssd-health.sh",
+      "topHogs": "./ops/monitoring/top-hogs.sh"
+    },
+    "cleanup": {
+      "brew": "./ops/cleanup/brew-cleanup.sh",
+      "docker": "./ops/cleanup/docker-cleanup.sh"
+    },
+    "optimization": {
+      "docker": "./ops/docker/docker-optimize.sh"
+    },
+    "metrics": {
+      "dashboard": "./metrics/comprehensive-dashboard.sh",
+      "tracker": "./metrics/system-metrics-tracker.sh"
+    },
+    "security": {
+      "sanitizer": "./scripts/pre-release-sanitizer.sh"
+    },
+    "ascii": {
+      "converter": "./scripts/convert-ascii-style.sh"
+    }
+  }
+}

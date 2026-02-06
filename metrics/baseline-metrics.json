@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-07-28 21:53:10",
+  "memory": {
+    "total_mb": 16384,
+    "used_mb": 8513,
+    "free_mb": 59,
+    "active_mb": 6060,
+    "inactive_mb": 6056,
+    "wired_mb": 2453,
+    "usage_percent": 51
+  },
+  "cpu": {
+    "usage_percent": 7.58
+  },
+  "swap": {
+    "swapouts": 0
+  },
+  "disk": {
+    "usage_percent": 22
+  },
+  "temperature": "62.64"
+}

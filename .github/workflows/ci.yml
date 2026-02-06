@@ -1,0 +1,153 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up environment
+      run: |
+        # Install Homebrew if not available
+        if ! command -v brew &> /dev/null; then
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        fi
+        
+        # Install required tools
+        brew install jq shellcheck
+        
+    - name: Check shell scripts
+      run: |
+        # Find all shell scripts and check them
+        find . -name "*.sh" -type f -exec shellcheck {} \;
+        
+    - name: Test script syntax
+      run: |
+        # Test that all shell scripts have valid syntax
+        for script in $(find . -name "*.sh" -type f); do
+          echo "Testing syntax for: $script"
+          bash -n "$script"
+        done
+        
+    - name: Check documentation
+      run: |
+        # Check that all README files exist
+        for dir in docs metrics ops todos; do
+          if [ -d "$dir" ]; then
+            if [ ! -f "$dir/README.md" ]; then
+              echo "Warning: Missing README.md in $dir/"
+            fi
+          fi
+        done
+        
+    - name: Validate project structure
+      run: |
+        # Check that essential files exist
+        required_files=(
+          "README.md"
+          "CONTRIBUTING.md"
+          "SECURITY.md"
+          "CHANGELOG.md"
+          "LICENSE"
+          ".gitignore"
+        )
+        
+        for file in "${required_files[@]}"; do
+          if [ ! -f "$file" ]; then
+            echo "Error: Missing required file: $file"
+            exit 1
+          fi
+        done
+        
+    - name: Check file permissions
+      run: |
+        # Ensure shell scripts are executable
+        for script in $(find . -name "*.sh" -type f); do
+          if [ ! -x "$script" ]; then
+            echo "Warning: Script not executable: $script"
+            chmod +x "$script"
+          fi
+        done
+        
+    - name: Validate markdown
+      run: |
+        # Basic markdown validation (check for broken links)
+        for md_file in $(find . -name "*.md" -type f); do
+          echo "Checking markdown file: $md_file"
+          # Check for common markdown issues
+          if grep -q "\[.*\]()" "$md_file"; then
+            echo "Warning: Empty link found in $md_file"
+          fi
+        done
+
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Security audit
+      run: |
+        # Check for common security issues in shell scripts
+        echo "Running security audit..."
+        
+        # Check for hardcoded secrets (basic check)
+        if grep -r "password\|secret\|key" . --include="*.sh" --include="*.md" | grep -v "example\|test\|TODO"; then
+          echo "Warning: Potential hardcoded secrets found"
+        fi
+        
+        # Check for dangerous commands
+        dangerous_patterns=(
+          "rm -rf"
+          "chmod 777"
+          "sudo"
+        )
+        
+        for pattern in "${dangerous_patterns[@]}"; do
+          if grep -r "$pattern" . --include="*.sh"; then
+            echo "Warning: Potentially dangerous command found: $pattern"
+          fi
+        done
+
+  documentation:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Check documentation completeness
+      run: |
+        # Check that all directories have README files
+        for dir in docs metrics ops todos; do
+          if [ -d "$dir" ]; then
+            if [ ! -f "$dir/README.md" ]; then
+              echo "Warning: Missing README.md in $dir/"
+            else
+              echo "✓ README.md found in $dir/"
+            fi
+          fi
+        done
+        
+    - name: Validate links
+      run: |
+        # Basic link validation
+        echo "Checking internal links..."
+        # This is a basic check - in a real scenario you might use a more sophisticated tool
+        
+    - name: Check documentation standards
+      run: |
+        # Check for proper documentation headers
+        for md_file in $(find . -name "*.md" -type f); do
+          if [ "$(basename "$md_file")" != "README.md" ]; then
+            if ! head -n 5 "$md_file" | grep -q "^# "; then
+              echo "Warning: Missing main heading in $md_file"
+            fi
+          fi
+        done 

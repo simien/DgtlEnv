@@ -1,0 +1,64 @@
+{
+  "prompts_directory": "prompts/categories",
+  "output_methods": {
+    "clipboard": true,
+    "file": false,
+    "stdout": false
+  },
+  "project": {
+    "name": "DgtlEnv",
+    "version": "1.0.0"
+  },
+  "logging": {
+    "enabled": true,
+    "level": "info",
+    "file": "logs/prompt-router.log"
+  },
+  "aliases": {
+    "diagnose-ci": [
+      "diagnose-ci-failure"
+    ],
+    "readme": [
+      "refactor-readme-concise"
+    ],
+    "docker": [
+      "optimize-docker-settings",
+      "generate-dockerfile"
+    ],
+    "todo": [
+      "create-todo-list",
+      "enforce-todo-quality-control"
+    ],
+    "git": [
+      "git-commit-push",
+      "generate-git-commit-message"
+    ],
+    "docs": [
+      "update-documentation-comprehensive",
+      "refactor-readme-concise"
+    ]
+  },
+  "rag_sources": {
+    "default_contexts": [
+      "README.md",
+      "docs/standards/ascii-style-guide.md",
+      "todos/templates/todo-template.md"
+    ],
+    "category_contexts": {
+      "system-optimization": [
+        "ops/docker/docker-optimize.sh",
+        "config/ide-settings.json"
+      ],
+      "documentation-generation": [
+        "docs/standards/unified-style-system.md",
+      ],
+      "workflow-management": [
+      ]
+    }
+  },
+  "version_control": {
+    "auto_backup": true,
+    "backup_directory": "config/backups",
+    "max_backups": 5
+  }
+}

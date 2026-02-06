@@ -1,0 +1,26 @@
+# Example: docker-compose.yml with resource limits for each service
+# Place this snippet in your actual docker-compose.yml and adjust as needed
+
+version: '3.8'
+services:
+  app:
+    image: your_app_image
+    # ... other config ...
+    mem_limit: 512m      # Limit to 512MB RAM
+    cpus: 0.5            # Limit to half a CPU core
+
+  db:
+    image: your_db_image
+    # ... other config ...
+    mem_limit: 1g        # Limit to 1GB RAM
+    cpus: 1.0            # Limit to one CPU core
+
+# For Docker Compose v3+ with Swarm, use:
+#   deploy:
+#     resources:
+#       limits:
+#         cpus: '0.50'
+#         memory: 512M
+#       reservations:
+#         cpus: '0.25'
+#         memory: 256M 

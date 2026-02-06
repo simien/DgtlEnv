@@ -1,0 +1,55 @@
+# Editor and IDE-specific files
+# -----------------------------
+.cursor/
+.vscode/
+.jules/
+.kiro/
+.personal/
+
+# Generated files, logs, and reports
+# -----------------------------------
+*.log
+logs/
+scan_results*
+metrics/pdf-conversion-metrics.json
+metrics/pdf-processing-dashboard.md
+metrics/current-metrics.json
+.!*
+
+# Build output and dependency directories
+# ---------------------------------------
+node_modules/
+build/
+dist/
+
+# Environment variables
+# ---------------------
+# Never commit secrets or environment-specific variables
+.env
+.env.*
+!/.env.example
+
+# Backup and temporary files
+# --------------------------
+DgtlEnv_Backup_*.zip
+*.zip
+*.tar.gz
+*.backup
+*.tmp
+*.bak
+*~
+*.swp
+*.swo
+
+# OS-specific files
+# -----------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python-specific files
+# ---------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd

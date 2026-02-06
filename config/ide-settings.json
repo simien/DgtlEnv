@@ -1,0 +1,55 @@
+{
+  "workbench.colorTheme": "Default Dark Modern",
+  "code-runner.runInTerminal": true,
+  "editor.codeActionsOnSave": {},
+  "git.enableSmartCommit": true,
+  "redhat.telemetry.enabled": true,
+  "docker.extension.enableComposeLanguageServer": false,
+  "cursor.composer.shouldChimeAfterChatFinishes": true,
+  "git.autofetch": true,
+
+  "_comment_performance": "Performance Optimizations (Project-Specific)",
+  "files.watcherExclude": {
+    "**/node_modules/*": true,
+    "**/build/*": true,
+    "**/.git/objects/**": true,
+    "**/.dropbox/**": true,
+    "**/logs/**": true,
+    "**/metrics/data/**": true
+  },
+  "typescript.tsserver.maxTsServerMemory": 2048,
+  "files.maxMemoryForLargeFilesMB": 64,
+  "editor.largeFileOptimizations": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/build": true,
+    "**/.git": true,
+    "**/.dropbox": true,
+    "**/logs": true,
+    "**/metrics/data": true
+  },
+  "explorer.excludeGitIgnore": true,
+
+  "_comment_project": "Project-Specific Settings",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/logs": true,
+    "**/metrics/data": true
+  },
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "files.associations": {
+    "*.sh": "shellscript",
+    "*.md": "markdown",
+    "*.yml": "yaml",
+    "*.yaml": "yaml",
+    "*.json": "json"
+  },
+  "markdown.preview.breaks": true,
+  "shellscript.suggest": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true
+}

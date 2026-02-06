@@ -1,0 +1,18 @@
+{
+  "files.watcherExclude": {
+    "**/node_modules/*": true,
+    "**/build/*": true,
+    "**/.git/objects/**": true,
+    "**/.dropbox/**": true
+  },
+  "typescript.tsserver.maxTsServerMemory": 2048,
+  "files.maxMemoryForLargeFilesMB": 64,
+  "editor.largeFileOptimizations": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/build": true,
+    "**/.git": true,
+    "**/.dropbox": true
+  },
+  "explorer.excludeGitIgnore": true
+} 
